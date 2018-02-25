@@ -9,7 +9,12 @@
   "author": "rainmire",
   "license": "ISC",
   "dependencies": {
+    "cloudinary": "^1.10.0",
     "discord.io": "github:woor/discord.io#gateway_v6",
     "winston": "^2.4.0"
+  },
+  "repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/Rainmire/emote-bot.git"
   }
 }

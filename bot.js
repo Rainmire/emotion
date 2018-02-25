@@ -32,6 +32,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: 'Pong!'
                 });
+            case 'bestgirl':
+            bot.sendMessage({
+                to: channelID,
+                message: 'Satania!'
+            });
             break;
             // Just add any case commands if you want to..
          }
