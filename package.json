@@ -1,0 +1,11 @@
+{
+  "name": "emote-bot",
+  "version": "1.0.0",
+  "description": "discord bot for custom emotes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rainmire",
+  "license": "ISC"
+}
