@@ -1,7 +1,7 @@
 const Discord = require('discord.io');
 const logger = require('winston');
-const auth = require('./auth.json');
-require('./actions.js');
+const discordAuth = require('./discord_auth.json');
+require('./routes/emotes.js');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -11,7 +11,7 @@ logger.add(logger.transports.Console, {
 logger.level = 'debug';
 // Initialize Discord Bot
 const bot = new Discord.Client({
-  token: auth.token,
+  token: discordAuth.token,
   autorun: true
 });
 bot.on('ready', function (evt) {
@@ -21,7 +21,7 @@ bot.on('ready', function (evt) {
 });
 
 bot.on('message', function (user, userID, channelID, message, evt) {
-    
+
   performAction(bot, channelID, message);
   
 });

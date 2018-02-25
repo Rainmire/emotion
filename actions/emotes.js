@@ -1,9 +1,10 @@
-const cloudinary = require('cloudinary');
-const cloudinaryAuth = require('./cloudinary_auth.json');
+const express = require('express');
+const mongoose = require('mongoose');
 
-cloudinary.config(cloudinaryAuth);
+require('../models/Emote');
+const Emote = mongoose.model('emotes');
 
-performAction = (bot, channelID, message) => {
+emoteAction = (bot, channelID, message) => {
 
   if (message.substring(0, 1) == '!') {
     let args = message.substring(1).split(' ');
