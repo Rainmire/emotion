@@ -9,7 +9,6 @@
   "author": "rainmire",
   "license": "ISC",
   "dependencies": {
-    "cloudinary": "^1.10.0",
     "discord.io": "github:woor/discord.io#gateway_v6",
     "express": "^4.16.2",
     "mongoose": "^5.0.7",
