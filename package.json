@@ -2,14 +2,14 @@
   "name": "emote-bot",
   "version": "1.0.0",
   "description": "discord bot for custom emotes",
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "rainmire",
   "license": "ISC",
   "dependencies": {
-    "discord.io": "^2.5.3",
+    "discord.io": "github:woor/discord.io#gateway_v6",
     "winston": "^2.4.0"
   }
 }
