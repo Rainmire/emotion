@@ -5,7 +5,8 @@ const discordAuth = require('./discord_auth.json');
 const mongoose = require('mongoose');
 
 // Load actions
-require('./actions/emotes.js');
+require('./actions/emote_actions.js');
+require('./actions/util_actions.js');
 
 // DB Config
 const db = require('./config/database');
@@ -39,5 +40,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
   if (message.substring(0, 1) === '!') {
     emoteAction(bot, channelID, message, evt);
+  } else if (message.substring(0, 1) === '?') {
+    utilAction(bot, channelID, message, evt);
   }
 });
