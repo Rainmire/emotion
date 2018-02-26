@@ -1,5 +1,5 @@
 {
-  "name": "emote-bot",
+  "name": "emotion",
   "version": "1.0.0",
   "description": "discord bot for custom emotes",
   "main": "bot.js",
