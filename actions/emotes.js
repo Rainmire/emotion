@@ -1,26 +1,35 @@
-const express = require('express');
 const mongoose = require('mongoose');
 
 require('../models/Emote');
 const Emote = mongoose.model('emotes');
 
-emoteAction = (bot, channelID, message) => {
+emoteAction = (bot, channelID, message, evt) => {
 
-  if (message.substring(0, 1) == '!') {
-    let args = message.substring(1).split(' ');
-    let cmd = args[0];  
+  let args = message.substring(1).split(' ');
+  let cmd = args[0];  
 
-    let img = cloudinary.url(`emote-bot/${cmd}.png`, 
-      {
-        transformation: [
-          { width: 250, height: 250, crop: 'limit' },               
-        ]
-    })
-
-    bot.sendMessage({
-      to: channelID,
-      message: img
-    });
-
+  let images = evt.d.attachments
+  if (images.length !== 0) {
+    addEmote(cmd, images[0].url, bot);
+  } else {
+    sendEmote(cmd);
   }
+
 }
+
+addEmote = (cmd, url) => {
+  new Emote({
+    command: cmd,
+    imageUrl: url
+  }).save()
+  console.log(`New emote saved: ${cmd}`);
+}
+
+sendEmote = (cmd) => {
+  console.log(`Emote sent: ${cmd}`);
+}
+
+// bot.sendMessage({
+//   to: channelID,
+//   message: img
+// });

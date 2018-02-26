@@ -13,4 +13,4 @@ const EmoteSchema = new Schema({
   }
 });
 
-mongoose.model('emotes', emoteSchema);
+mongoose.model('emotes', EmoteSchema);
