@@ -13,16 +13,16 @@ emoteAction = (bot, channelID, message, evt) => {
 }
 
 sendEmote = (cmd, bot, channelID) => {
-  let emote = Emote.find({command: cmd}, 'imageUrl', (err, result) => {
+  let emote = Emote.find({command: cmd}, 'imageUrl', (err, results) => {
     if (err) {
       bot.sendMessage({
         to: channelID,
         message: err
       });
-    } else if (result.length !== 0){
+    } else if (results.length !== 0){
       bot.sendMessage({
         to: channelID,
-        message: result[0].imageUrl
+        message: results[0].imageUrl
       });
     }
   })

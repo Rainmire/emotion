@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var nl = require('os').EOL;
 
 require('../models/Emote');
 const Emote = mongoose.model('emotes');
@@ -15,10 +16,11 @@ utilAction = (bot, channelID, message, evt) => {
     case 'delete':
       deleteEmote(args, bot, channelID);
       break;
-    case 'list':
-      listEmotes(args, bot, channelID);
+    case 'emotes':
+      listEmotes(bot, channelID);
+      break;
     case 'help':
-      listCommands(args, bot, channelID);
+      listCommands(bot, channelID);
   }
 }
 
@@ -38,13 +40,13 @@ addEmote = (args, bot, channelID, evt) => {
     } else {
       let cmd = args[1];
       let url = images[0].url;
-      let emote = Emote.find({command: cmd}, (err, result) => {
+      let emote = Emote.find({command: cmd}, (err, results) => {
         if (err) {
           bot.sendMessage({
             to: channelID,
             message: err
           });
-        } else if (result.length === 0) {
+        } else if (results.length === 0) {
           new Emote({
             command: cmd,
             imageUrl: url
@@ -73,13 +75,13 @@ deleteEmote = (args, bot, channelID) => {
     });
   } else {
     let cmd = args[1];
-    let emote = Emote.find({command: cmd}, (err, result) => {
+    let emote = Emote.find({command: cmd}, (err, results) => {
       if (err) {
         bot.sendMessage({
           to: channelID,
           message: err
         });
-      } else if (result.length !== 0) {
+      } else if (results.length !== 0) {
         Emote.remove({command: cmd}, (err) => {
           if (err) {
             bot.sendMessage({
@@ -105,6 +107,45 @@ deleteEmote = (args, bot, channelID) => {
   }
 }
 
-listEmotes = () => {
+listEmotes = (bot, channelID) => {
+  Emote.find({}, 'command', (err, results) => {
+    if (err) {
+      bot.sendMessage({
+        to: channelID,
+        message: err
+      });
+    } else if (results.length !== 0){
+      let emoteList = '```' + nl;
+      results.forEach((res) => {
+        emoteList += "?" + (res.command) + nl
+      })
+      emoteList += '```';
 
+      bot.sendMessage({
+        to: channelID,
+        message: emoteList
+      });
+    } else {
+      bot.sendMessage({
+        to: channelID,
+        message: "No emotes yet. Add one!"
+      });
+    }
+  })
+
+}
+
+listCommands = (bot, channelID) => {
+  bot.sendMessage({
+    to: channelID,
+    message: 
+    '```' + nl +
+    'Commands:' + nl +
+    '  !<emote>        Send an emote' + nl +
+    '  ?add <emote>    Add a new emote. Must be used as a comment when uploading an image' + nl +
+    '  ?delete <emote> Delete an emote' + nl +
+    '  ?emotes         List all emotes' + nl +
+    '  ?help           Prints this thing' + nl +
+    '```'
+  });
 }
