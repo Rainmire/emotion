@@ -13,12 +13,12 @@ utilAction = (bot, channelID, message, evt) => {
       addEmote(args, bot, channelID, evt);
       break;
     case 'delete':
-      // deleteEmote(args, bot, channelID);
+      deleteEmote(args, bot, channelID);
       break;
     case 'list':
-      // listEmotes();
+      listEmotes(args, bot, channelID);
     case 'help':
-      // listCommands();
+      listCommands(args, bot, channelID);
   }
 }
 
@@ -65,24 +65,46 @@ addEmote = (args, bot, channelID, evt) => {
   }
 }
 
-// sendEmote = (cmd, bot, channelID) => {
-//   let emote = Emote.find({command: cmd}, 'imageUrl', (err, result) => {
-//     if (err) {
-//       bot.sendMessage({
-//         to: channelID,
-//         message: err
-//       });
-//     } else if (result.length === 0) {
-//       bot.sendMessage({
-//         to: channelID,
-//         message: `"!${cmd}" is not a valid command.`
-//       });
-//     } else {
-//       bot.sendMessage({
-//         to: channelID,
-//         message: result[0].imageUrl
-//       });
-//     }
-//   })
+deleteEmote = (args, bot, channelID) => {
+  if (args.length !== 2) {
+    bot.sendMessage({
+      to: channelID,
+      message: 'Invalid syntax. Use "?delete <emote>", where <emote> is one word.'
+    });
+  } else {
+    let cmd = args[1];
+    let emote = Emote.find({command: cmd}, (err, result) => {
+      if (err) {
+        bot.sendMessage({
+          to: channelID,
+          message: err
+        });
+      } else if (result.length !== 0) {
+        Emote.remove({command: cmd}, (err) => {
+          if (err) {
+            bot.sendMessage({
+              to: channelID,
+              message: err
+            });
+          } else {
+            bot.sendMessage({
+              to: channelID,
+              message: `Emote "!${cmd}" deleted!`
+            });
+          }
+        })
+        
+      } else {
+        bot.sendMessage({
+          to: channelID,
+          message: `Emote "!${cmd}" does not exist.`
+        });
+        
+      }
+    })
+  }
+}
 
-// }
+listEmotes = () => {
+
+}
