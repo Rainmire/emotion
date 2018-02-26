@@ -53,7 +53,7 @@ addEmote = (args, bot, channelID, evt) => {
           }).save()
           bot.sendMessage({
             to: channelID,
-            message: `New emote "!${cmd}" saved!`
+            message: `New emote "!${cmd}" added!`
           });
         } else {
           bot.sendMessage({
@@ -142,10 +142,10 @@ listCommands = (bot, channelID) => {
     '```' + nl +
     'Commands:' + nl +
     '  !<emote>        Send an emote' + nl +
-    '  ?add <emote>    Add a new emote. Must be used as a comment when uploading an image' + nl +
+    '  ?add <emote>    Add a new emote. Use as a comment when adding an image' + nl +
     '  ?delete <emote> Delete an emote' + nl +
     '  ?emotes         List all emotes' + nl +
-    '  ?help           Prints this thing' + nl +
+    '  ?help           Print this index' + nl +
     '```'
   });
 }
