@@ -4,8 +4,7 @@
   "description": "discord bot for custom emotes",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node emotion.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "rainmire",
   "license": "ISC",
