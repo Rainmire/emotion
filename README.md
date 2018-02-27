@@ -12,3 +12,5 @@ Commands:
 ```
 
 To add emotion to your server, click here: https://discordapp.com/api/oauth2/authorize?client_id=417809459864272906&permissions=0&scope=bot
+
+#### Powered by Heroku and mLab
