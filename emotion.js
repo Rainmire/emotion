@@ -1,7 +1,5 @@
 const Discord = require('discord.io');
 const logger = require('winston');
-const discordAuth = require('./discord_auth.json');
-// const express = require('express');
 const mongoose = require('mongoose');
 
 // Load actions
