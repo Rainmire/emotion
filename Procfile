@@ -1,1 +1,1 @@
-web: node emotion.js
+worker: node emotion.js
