@@ -117,7 +117,7 @@ listEmotes = (bot, channelID) => {
     } else if (results.length !== 0){
       let emoteList = '```' + nl;
       results.forEach((res) => {
-        emoteList += "?" + (res.command) + nl
+        emoteList += "!" + (res.command) + nl
       })
       emoteList += '```';
 
