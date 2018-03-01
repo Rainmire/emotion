@@ -108,7 +108,13 @@ deleteEmote = (args, bot, channelID) => {
 }
 
 listEmotes = (bot, channelID) => {
-  Emote.find({}, 'command', (err, results) => {
+  Emote.find({}, 'command',
+  {
+    sort: {
+      command: 1
+    }
+  },
+  (err, results) => {
     if (err) {
       bot.sendMessage({
         to: channelID,
