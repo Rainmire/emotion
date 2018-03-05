@@ -6,6 +6,9 @@ const Emote = mongoose.model('emotes');
 
 utilAction = (bot, channelID, message, evt) => {
 
+  // console.log("EVENT CONTENTS");
+  // console.log(evt);
+
   let args = message.substring(1).split(' ');
   let cmd = args[0];  
 

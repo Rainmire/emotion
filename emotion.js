@@ -24,8 +24,9 @@ logger.add(logger.transports.Console, {
 });
 logger.level = 'debug';
 // Initialize Discord Bot
+const dc = require('./config/discord');
 const bot = new Discord.Client({
-  token: process.env.EMOTION_DISCORD_TOKEN,
+  token: dc.discordToken,
   autorun: true
 });
 bot.on('ready', function (evt) {
@@ -36,9 +37,26 @@ bot.on('ready', function (evt) {
 
 bot.on('message', function (user, userID, channelID, message, evt) {
 
+  // console.log("ARGUMENTS");
+  // console.log(arguments);
+
+  console.log(evt);
+
   if (message.substring(0, 1) === '!') {
     emoteAction(bot, channelID, message, evt);
   } else if (message.substring(0, 1) === '?') {
     utilAction(bot, channelID, message, evt);
   }
 });
+
+bot.on('disconnect', function(errMsg, code) {
+  console.log(errMsg);
+});
+
+// bot.on('any', (event) => {
+//   console.log("event: ");
+//   console.log(event);
+
+//   console.log("channels: ");
+//   console.log(bot.channels);
+// })
