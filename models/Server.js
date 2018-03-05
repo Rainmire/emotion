@@ -1,15 +1,14 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+require('Emote');
 
-// const ServerSchema = new Schema({
-//   serverId:{
-//     type: String,
-//     required: true
-//   },
-//   imageUrl:{
-//     type: String,
-//     required: true
-//   }
-// });
+const ServerSchema = new Schema({
+  serverId:{
+    type: String,
+    required: true,
+    index: true
+  },
+  emotes: [EmoteSchema]
+});
 
-// mongoose.model('emotes', EmoteSchema);
+const Server = mongoose.model('emotes', EmoteSchema);

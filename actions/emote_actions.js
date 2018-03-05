@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 require('../models/Emote');
-const Emote = mongoose.model('emotes');
 
 emoteAction = (bot, channelID, message, evt) => {
 

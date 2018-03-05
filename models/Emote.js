@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Create Schema
 const EmoteSchema = new Schema({
   command:{
     type: String,
@@ -13,4 +12,4 @@ const EmoteSchema = new Schema({
   }
 });
 
-mongoose.model('emotes', EmoteSchema);
+const Emote = mongoose.model('emotes', EmoteSchema);
