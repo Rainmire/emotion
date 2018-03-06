@@ -3,8 +3,8 @@ const logger = require('winston');
 const mongoose = require('mongoose');
 
 // Load actions
-require('./actions/emote_actions.js');
-require('./actions/util_actions.js');
+// require('./actions/emote_actions.js');
+require('./actions/util_actions');
 
 // DB Config
 const db = require('./config/database');
@@ -35,17 +35,17 @@ bot.on('ready', function (evt) {
   logger.info(bot.username + ' - (' + bot.id + ')');
 });
 
-bot.on('message', function (user, userID, channelID, message, evt) {
+bot.on('message', function (user, userId, channelId, message, evt) {
 
   // console.log("ARGUMENTS");
   // console.log(arguments);
 
-  console.log(evt);
+  // console.log(evt);
 
   if (message.substring(0, 1) === '!') {
-    emoteAction(bot, channelID, message, evt);
+    emoteAction(bot, channelId, message, evt);
   } else if (message.substring(0, 1) === '?') {
-    utilAction(bot, channelID, message, evt);
+    utilAction(bot, channelId, message, evt);
   }
 });
 
@@ -53,10 +53,17 @@ bot.on('disconnect', function(errMsg, code) {
   console.log(errMsg);
 });
 
+///TESTING
+
 // bot.on('any', (event) => {
 //   console.log("event: ");
 //   console.log(event);
 
 //   console.log("channels: ");
 //   console.log(bot.channels);
+// })
+
+// bot.on('message', (user, userId, channelId, message, evt) => {
+//   console.log(bot.channels[channelId].guild_id);
+
 // })

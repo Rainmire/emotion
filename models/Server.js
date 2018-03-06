@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-require('Emote');
+const emoteSchema = require('./Emote');
 
-const ServerSchema = new Schema({
+const serverSchema = new Schema({
   serverId:{
-    type: String,
+    type: Number,
     required: true,
-    index: true
+    // index: true
   },
-  emotes: [EmoteSchema]
+  // serverToken:{
+  //   type: String,
+  //   required: true,
+  //   index: true
+  // },
+  emotes: [emoteSchema]
 });
 
-const Server = mongoose.model('emotes', EmoteSchema);
+module.exports = mongoose.model('servers', serverSchema);
