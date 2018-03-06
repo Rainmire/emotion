@@ -26,82 +26,82 @@ utilAction = (bot, channelId, message, evt) => {
   }
 }
 
-/*
+
 addEmote = (args, bot, channelID, evt) => {
-  
+  let errorMessage = "Error code 1. Please submit a bug report!";
+  let error = false;
   if (args.length !== 2) {
-    bot.sendMessage({
-      to: channelID,  
-      message: 'Invalid syntax. Use "?add <emote>", where <emote> is one word.'
-    });
+    errorMessage = 'Invalid syntax. Use "?add <emote>", where <emote> is one word.';
+    error = true;
   } else {
     let images = evt.d.attachments;
-    if (images.length === 0) {
-      bot.sendMessage({
-        to: channelID,
-        message: 'Use this command as a comment when uploading an image!'
-      });
+    if (images.length === 0) {      
+      errorMessage = 'Use this command as a comment when uploading an image!';
+      error = true;
     } else {
       let cmd = args[1];
       let url = images[0].url;
-      let emote = Emote.find({command: cmd}, (err, results) => {
-        if (err) {
-          bot.sendMessage({
-            to: channelID,
-            message: err
-          });
-        } else if (results.length === 0) {
-          new Emote({
-            command: cmd,
-            imageUrl: url
-          }).save()
-          bot.sendMessage({
-            to: channelID,
-            message: `New emote "!${cmd}" added!`
-          });
-        } else {
-          bot.sendMessage({
-            to: channelID,
-            message: `Emote "!${cmd}" already exists.`
-          });
-          
+
+      Server.findOne({serverId: 1}, 'emotes', (err, res) => {
+        //TODO: check if server exists in DB
+
+        let emotes = res.emotes;
+        let emoteExists = false;
+        let dbMessage;
+
+        for (let i = 0; i < emotes.length; i++) {
+          if (emotes[i].command === cmd) {
+            emoteExists = true;
+            break;
+          }
         }
+        if (err) {
+          dbMessage = err;
+        } else if (emoteExists) {          
+          dbMessage = `Emote "!${cmd}" already exists.`;
+        } else {
+          emotes.push({command: cmd, imageUrl: url});
+          res.save();
+          dbMessage = `New emote "!${cmd}" added!`;
+        }
+        bot.sendMessage({
+          to: channelID,  
+          message: dbMessage
+        });
       })
-      
-      
     }
   }
+  if (error) {
+    bot.sendMessage({
+      to: channelID,  
+      message: errorMessage
+    });
+  }
 }
-*/
-addEmote = (args, bot, channelId, evt) => {
-  // let query = Server
-  //   .findOne({serverId: 1})
-  //   .select('emotes');
-  // query.exec((err, emotes) => {
-  //   if (err) return handleError(err);
-  //   console.log(emotes);
-  // })
-  let cmd = args[1];
 
-  Server.findOne({serverId: 1}, 'emotes', (err, res) => {
-    let emotes = res.emotes;
-    let emoteExists = false;
-    for (let i = 0; i < emotes.length; i++) {
-      // console.log(emotes[i].command);
-      if (emotes[i].command === cmd) {
-        emoteExists = true;
-        break;
-      }
-    }
-    if (emoteExists) {
-      console.log("exists");
-    } else {
-      console.log("does not exist");
-      emotes.push({command: cmd, imageUrl: 'test'});
-      res.save();
-    }
-  })
-}
+// addEmote = (args, bot, channelId, evt) => {
+
+//   let cmd = args[1];
+
+//   Server.findOne({serverId: 1}, 'emotes', (err, res) => {
+//     let emotes = res.emotes;
+//     let emoteExists = false;
+//     for (let i = 0; i < emotes.length; i++) {
+//       // console.log(emotes[i].command);
+//       if (emotes[i].command === cmd) {
+//         emoteExists = true;
+//         break;
+//       }
+//     }
+//     if (emoteExists) {
+//       console.log("exists");
+//     } else {
+//       console.log("does not exist");
+//       emotes.push({command: cmd, imageUrl: 'test'});
+//       res.save();
+//     }
+//   })
+// }
 
 // deleteEmote = (args, bot, channelID) => {
 //   if (args.length !== 2) {
