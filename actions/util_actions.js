@@ -80,10 +80,8 @@ const addEmote = (args, bot, channelId, evt) => {
       let url = images[0].url;
 
       let serverId = bot.channels[channelId].guild_id
-      console.log(`serverId: ${serverId}`);
 
       findEmote(serverId, cmd, (queryResult) => {
-        console.log(`queryReseult: ${queryResult}`);
         let dbMessage;
         
         if (queryResult.idx !== -1) {
@@ -122,32 +120,18 @@ const deleteEmote = (args, bot, channelId) => {
     error = true;
   } else {
     let cmd = args[1];
+    let serverId = bot.channels[channelId].guild_id
+
     findEmote(serverId, cmd, (queryResult) => {
-
-    })
-
-
-    Server.findOne({serverId: 1}, 'emotes', (err, res) => {
-      //TODO: check if server exists in DB
-
-      let emotes = res.emotes;
-      let emoteExists = false;
       let dbMessage;
 
-      let i = 0;
-      for (; i < emotes.length; i++) {
-        if (emotes[i].command === cmd) {
-          emoteExists = true;
-          break;
-        }
-      }
-      if (err) {
-        dbMessage = err;
-      } else if (!emoteExists) {          
-        dbMessage = `Emote "!${cmd}" does not exist.`;
+      if (queryResult.idx === -1) {
+        dbMessage = `Emote "!${cmd}" does not exist.`;        
       } else {
-        // emotes[i].remove();
-        // res.save();
+        let server = queryResult.server;
+        let emote = server.emotes[queryResult.idx];
+        emote.remove();
+        server.save();
         dbMessage = `Emote "!${cmd}" deleted!`;
       }
       bot.sendMessage({
