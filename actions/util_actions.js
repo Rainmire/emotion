@@ -5,7 +5,7 @@ var nl = require('os').EOL;
 // const Emote = mongoose.model('emotes');
 const Server = require('../models/Server');
 
-utilAction = (bot, channelId, message, evt) => {
+module.exports = (bot, channelId, message, evt) => {
 
   let args = message.substring(1).split(' ');
   let cmd = args[0];
@@ -26,8 +26,27 @@ utilAction = (bot, channelId, message, evt) => {
   }
 }
 
+const findEmote = (serverId, cmd, emoteAction) => {
+  return Server.findOne({serverId: serverId}, 'emotes', (err, res) => {
+    let queryResult = {
+      idx: -1,
+      server: res
+    }
+    if (res) {
+      let emotes = res.emotes
 
-addEmote = (args, bot, channelID, evt) => {
+      for (let i = 0; i < emotes.length; i++) {
+        if (emotes[i].command === cmd) {
+          queryResult.idx = i;
+          break;
+        }
+      }
+    }
+    emoteAction(queryResult);
+  }); 
+}
+
+const addEmote = (args, bot, channelID, evt) => {
   let errorMessage = "Error code 1. Please submit a bug report!";
   let error = false;
   if (args.length !== 2) {
@@ -42,33 +61,28 @@ addEmote = (args, bot, channelID, evt) => {
       let cmd = args[1];
       let url = images[0].url;
 
-      Server.findOne({serverId: 1}, 'emotes', (err, res) => {
-        //TODO: check if server exists in DB
+      serverId = 3;
 
-        let emotes = res.emotes;
-        let emoteExists = false;
+      findEmote(serverId, cmd, (queryResult) => {
+        console.log(queryResult);
         let dbMessage;
-
-        for (let i = 0; i < emotes.length; i++) {
-          if (emotes[i].command === cmd) {
-            emoteExists = true;
-            break;
-          }
-        }
-        if (err) {
-          dbMessage = err;
-        } else if (emoteExists) {          
+        
+        if (queryResult.idx !== -1) {
           dbMessage = `Emote "!${cmd}" already exists.`;
         } else {
-          emotes.push({command: cmd, imageUrl: url});
-          res.save();
+          let server = queryResult.server;
+          if (!server) {
+            server = new Server({serverId: serverId, emotes: []});
+          }
+          server.emotes.push({command: cmd, imageUrl: url});
+          server.save();
           dbMessage = `New emote "!${cmd}" added!`;
         }
         bot.sendMessage({
           to: channelID,  
           message: dbMessage
         });
-      })
+      });      
     }
   }
   if (error) {
@@ -79,11 +93,11 @@ addEmote = (args, bot, channelID, evt) => {
   }
 }
 
-deleteEmote = (args, bot, channelID) => {
-  let errorMessage = "Error code 1. Please submit a bug report!";
+const deleteEmote = (args, bot, channelID) => {
+  let errorMessage = "Error code 2. Please submit a bug report!";
   let error = false;
   if (args.length !== 2) {
-    errorMessage = 'Invalid syntax. Use "?add <emote>", where <emote> is one word.';
+    errorMessage = 'Invalid syntax. Use "?delete <emote>", where <emote> is one word.';
     error = true;
   } else {
     let cmd = args[1];
@@ -106,8 +120,8 @@ deleteEmote = (args, bot, channelID) => {
       } else if (!emoteExists) {          
         dbMessage = `Emote "!${cmd}" does not exist.`;
       } else {
-        emotes[i].remove();
-        res.save();
+        // emotes[i].remove();
+        // res.save();
         dbMessage = `Emote "!${cmd}" deleted!`;
       }
       bot.sendMessage({
@@ -158,7 +172,7 @@ deleteEmote = (args, bot, channelID) => {
 
 // }
 
-listCommands = (bot, channelID) => {
+const listCommands = (bot, channelID) => {
   bot.sendMessage({
     to: channelID,
     message: 

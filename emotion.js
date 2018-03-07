@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 // Load actions
 // require('./actions/emote_actions.js');
-require('./actions/util_actions');
+const utilAction = require('./actions/util_actions');
 
 // DB Config
 const db = require('./config/database');
