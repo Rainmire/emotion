@@ -6,13 +6,13 @@ const serverSchema = new Schema({
   serverId:{
     type: Number,
     required: true,
-    // index: true
+    index: true
   },
-  // serverToken:{
-  //   type: String,
-  //   required: true,
-  //   index: true
-  // },
+  serverToken:{
+    type: String,
+    required: true,
+    index: true
+  },
   emotes: [emoteSchema]
 });
 

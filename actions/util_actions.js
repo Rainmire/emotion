@@ -23,8 +23,26 @@ module.exports = (bot, channelId, message, evt) => {
     //   break;
     case 'help':
       listCommands(bot, channelId);
+      break;
+    case 'test':
+      testCommand(bot, channelId);
+      break;
   }
 }
+
+const testCommand = (bot, channelId) => {
+  //credit to: https://gist.github.com/LeverOne/1308368
+  // let foo = (a,b) => {for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b}
+  // console.log(foo());
+
+  let bar = bot.servers;
+  channelId = '419970738548768778s';
+  console.log(bar[channelId]);
+
+}
+
+//credit to: https://gist.github.com/LeverOne/1308368
+const generateUuid = () => {for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b}
 
 const findEmote = (serverId, cmd, emoteAction) => {
   return Server.findOne({serverId: serverId}, 'emotes', (err, res) => {
@@ -46,7 +64,7 @@ const findEmote = (serverId, cmd, emoteAction) => {
   }); 
 }
 
-const addEmote = (args, bot, channelID, evt) => {
+const addEmote = (args, bot, channelId, evt) => {
   let errorMessage = "Error code 1. Please submit a bug report!";
   let error = false;
   if (args.length !== 2) {
@@ -61,10 +79,11 @@ const addEmote = (args, bot, channelID, evt) => {
       let cmd = args[1];
       let url = images[0].url;
 
-      serverId = 3;
+      let serverId = bot.channels[channelId].guild_id
+      console.log(`serverId: ${serverId}`);
 
       findEmote(serverId, cmd, (queryResult) => {
-        console.log(queryResult);
+        console.log(`queryReseult: ${queryResult}`);
         let dbMessage;
         
         if (queryResult.idx !== -1) {
@@ -72,14 +91,16 @@ const addEmote = (args, bot, channelID, evt) => {
         } else {
           let server = queryResult.server;
           if (!server) {
-            server = new Server({serverId: serverId, emotes: []});
+            //create new server
+            let uuid = generateUuid();
+            server = new Server({serverId: serverId, serverToken: uuid, emotes: []});
           }
           server.emotes.push({command: cmd, imageUrl: url});
           server.save();
           dbMessage = `New emote "!${cmd}" added!`;
         }
         bot.sendMessage({
-          to: channelID,  
+          to: channelId,  
           message: dbMessage
         });
       });      
@@ -87,13 +108,13 @@ const addEmote = (args, bot, channelID, evt) => {
   }
   if (error) {
     bot.sendMessage({
-      to: channelID,  
+      to: channelId,  
       message: errorMessage
     });
   }
 }
 
-const deleteEmote = (args, bot, channelID) => {
+const deleteEmote = (args, bot, channelId) => {
   let errorMessage = "Error code 2. Please submit a bug report!";
   let error = false;
   if (args.length !== 2) {
@@ -101,6 +122,11 @@ const deleteEmote = (args, bot, channelID) => {
     error = true;
   } else {
     let cmd = args[1];
+    findEmote(serverId, cmd, (queryResult) => {
+
+    })
+
+
     Server.findOne({serverId: 1}, 'emotes', (err, res) => {
       //TODO: check if server exists in DB
 
@@ -125,20 +151,20 @@ const deleteEmote = (args, bot, channelID) => {
         dbMessage = `Emote "!${cmd}" deleted!`;
       }
       bot.sendMessage({
-        to: channelID,  
+        to: channelId,  
         message: dbMessage
       });
     })
   }
   if (error) {
     bot.sendMessage({
-      to: channelID,  
+      to: channelId,  
       message: errorMessage
     });
   }
 }
 
-// listEmotes = (bot, channelID) => {
+// listEmotes = (bot, channelId) => {
 //   Emote.find({}, 'command',
 //   {
 //     sort: {
@@ -148,7 +174,7 @@ const deleteEmote = (args, bot, channelID) => {
 //   (err, results) => {
 //     if (err) {
 //       bot.sendMessage({
-//         to: channelID,
+//         to: channelId,
 //         message: err
 //       });
 //     } else if (results.length !== 0){
@@ -159,12 +185,12 @@ const deleteEmote = (args, bot, channelID) => {
 //       emoteList += '```';
 
 //       bot.sendMessage({
-//         to: channelID,
+//         to: channelId,
 //         message: emoteList
 //       });
 //     } else {
 //       bot.sendMessage({
-//         to: channelID,
+//         to: channelId,
 //         message: "No emotes yet. Add one!"
 //       });
 //     }
@@ -172,9 +198,9 @@ const deleteEmote = (args, bot, channelID) => {
 
 // }
 
-const listCommands = (bot, channelID) => {
+const listCommands = (bot, channelId) => {
   bot.sendMessage({
-    to: channelID,
+    to: channelId,
     message: 
     '```' + nl +
     'Commands:' + nl +
