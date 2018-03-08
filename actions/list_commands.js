@@ -1,3 +1,5 @@
+const nl = require('os').EOL;
+
 const listCommands = (bot, channelId) => {
   bot.sendMessage({
     to: channelId,

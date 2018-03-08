@@ -1,18 +1,18 @@
 const findEmote = require('./find_emote');
 
-const deleteEmote = (args, bot, channelId) => {
-  let errorMessage = "Error code 2. Please submit a bug report!";
+const deleteEmote = (args, bot, channelId, serverId) => {
+  let errorMessage;
   let error = false;
   if (args.length !== 2) {
     errorMessage = 'Invalid syntax. Use "?delete <emote>", where <emote> is one word.';
     error = true;
   } else {
     let cmd = args[1];
-    let serverId = bot.channels[channelId].guild_id;
-
     findEmote(serverId, (queryResult) => {
       let dbMessage;
-      if (queryResult.idx === -1) {
+      if (queryResult.err) {
+        dbMessage = "Error code 1-d. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
+      } else if (queryResult.idx === -1) {
         dbMessage = `Emote "!${cmd}" does not exist.`;        
       } else {
         let server = queryResult.server;

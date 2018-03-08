@@ -3,8 +3,8 @@ const findEmote = require('./find_emote');
 const findInsertionIndex = require('./find_insertion_index');
 const generateUuid = require('./generate_uid');
 
-const addEmote = (args, bot, channelId, evt) => {
-  let errorMessage = "Error code 1. Please submit a bug report!";
+const addEmote = (args, bot, channelId, evt, serverId) => {
+  let errorMessage;
   let error = false;
   if (args.length !== 2) {
     errorMessage = 'Invalid syntax. Use "?add <emote>", where <emote> is one word.';
@@ -17,13 +17,11 @@ const addEmote = (args, bot, channelId, evt) => {
     } else {
       let cmd = args[1];
       let url = images[0].url;
-
-      let serverId = bot.channels[channelId].guild_id;
-
       findEmote(serverId, (queryResult) => {
-        let dbMessage;
-        
-        if (queryResult.idx !== -1) {
+        let dbMessage;        
+        if (queryResult.err) {
+          dbMessage = "Error code 1-a. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
+        } else if (queryResult.idx !== -1) {
           dbMessage = `Emote "!${cmd}" already exists.`;
         } else {
           let server = queryResult.server;

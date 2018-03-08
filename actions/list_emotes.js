@@ -1,11 +1,13 @@
+const nl = require('os').EOL;
 const findEmote = require('./find_emote');
 
-listEmotes = (bot, channelId) => {
-  let serverId = bot.channels[channelId].guild_id;
+listEmotes = (bot, channelId, serverId) => {
   findEmote(serverId, (queryResult) => {
     let dbMessage;
     let server = queryResult.server;
-    if (server && server.emotes.length > 0) {
+    if (queryResult.err) {
+      dbMessage = "Error code 1-l. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
+    } else if (server && server.emotes.length > 0) {
       dbMessage = '```' + nl;
       server.emotes.forEach((emote) => {
         dbMessage += "!" + (emote.command) + nl

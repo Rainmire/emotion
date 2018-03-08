@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.io": "github:woor/discord.io#gateway_v6",
-    "mongoose": "^5.0.7",
+    "mongoose": "^5.0.9",
     "winston": "^2.4.0"
   },
   "repository": {

@@ -1,6 +1,3 @@
-const mongoose = require('mongoose');
-var nl = require('os').EOL;
-
 const addEmote = require('./add_emote');
 const deleteEmote = require('./delete_emote');
 const listEmotes = require('./list_emotes');
@@ -10,7 +7,7 @@ module.exports = (bot, channelId, message, evt) => {
 
   let args = message.substring(1).split(' ');
   let cmd = args[0];
-  let serverId = bot.channels[channelId].guild_id
+  let serverId = bot.channels[channelId].guild_id;
 
   switch(cmd) {
     case 'add':
