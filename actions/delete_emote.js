@@ -9,21 +9,21 @@ const deleteEmote = (args, bot, channelId, serverId) => {
   } else {
     let cmd = args[1];
     findEmote(serverId, (queryResult) => {
-      let dbMessage;
+      let clientMessage;
       if (queryResult.err) {
-        dbMessage = "Error code 1-d. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
+        clientMessage = "Error code 1-d. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
       } else if (queryResult.idx === -1) {
-        dbMessage = `Emote "!${cmd}" does not exist.`;        
+        clientMessage = `Emote "!${cmd}" does not exist.`;        
       } else {
         let server = queryResult.server;
         let emote = server.emotes[queryResult.idx];
         emote.remove();
         server.save();
-        dbMessage = `Emote "!${cmd}" deleted!`;
+        clientMessage = `Emote "!${cmd}" deleted!`;
       }
       bot.sendMessage({
         to: channelId,  
-        message: dbMessage
+        message: clientMessage
       });
     }, cmd);
   }

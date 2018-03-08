@@ -2,9 +2,8 @@ const Discord = require('discord.io');
 const logger = require('winston');
 const mongoose = require('mongoose');
 
-// Load actions
-// require('./actions/emote_actions.js');
-const utilAction = require('./actions/util_actions');
+// Load routers
+const actionRouter = require('./routers/action_router');
 
 // DB Config
 const db = require('./config/database');
@@ -36,34 +35,9 @@ bot.on('ready', function (evt) {
 });
 
 bot.on('message', function (user, userId, channelId, message, evt) {
-
-  // console.log("ARGUMENTS");
-  // console.log(arguments);
-
-  // console.log(evt);
-
-  if (message.substring(0, 1) === '!') {
-    emoteAction(bot, channelId, message, evt);
-  } else if (message.substring(0, 1) === '?') {
-    utilAction(bot, channelId, message, evt);
-  }
+  actionRouter(bot, channelId, message, evt);
 });
 
 bot.on('disconnect', function(errMsg, code) {
   console.log(errMsg);
 });
-
-///TESTING
-
-// bot.on('any', (event) => {
-//   console.log("event: ");
-//   console.log(event);
-
-//   console.log("channels: ");
-//   console.log(bot.channels);
-// })
-
-// bot.on('message', (user, userId, channelId, message, evt) => {
-//   console.log(bot.channels[channelId].guild_id);
-
-// })

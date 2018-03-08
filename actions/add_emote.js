@@ -18,11 +18,11 @@ const addEmote = (args, bot, channelId, evt, serverId) => {
       let cmd = args[1];
       let url = images[0].url;
       findEmote(serverId, (queryResult) => {
-        let dbMessage;        
+        let clientMessage;        
         if (queryResult.err) {
-          dbMessage = "Error code 1-a. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
+          clientMessage = "Error code 1-a. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
         } else if (queryResult.idx !== -1) {
-          dbMessage = `Emote "!${cmd}" already exists.`;
+          clientMessage = `Emote "!${cmd}" already exists.`;
         } else {
           let server = queryResult.server;
           if (!server) {
@@ -34,11 +34,11 @@ const addEmote = (args, bot, channelId, evt, serverId) => {
           let idx = findInsertionIndex(emotes, cmd);
           emotes.splice(idx, 0, {command: cmd, imageUrl: url});
           server.save();
-          dbMessage = `New emote "!${cmd}" added!`;
+          clientMessage = `New emote "!${cmd}" added!`;
         }
         bot.sendMessage({
           to: channelId,  
-          message: dbMessage
+          message: clientMessage
         });
       }, cmd);      
     }

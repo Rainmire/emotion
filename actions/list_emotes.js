@@ -3,22 +3,22 @@ const findEmote = require('./find_emote');
 
 listEmotes = (bot, channelId, serverId) => {
   findEmote(serverId, (queryResult) => {
-    let dbMessage;
+    let clientMessage;
     let server = queryResult.server;
     if (queryResult.err) {
-      dbMessage = "Error code 1-l. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
+      clientMessage = "Error code 1-l. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
     } else if (server && server.emotes.length > 0) {
-      dbMessage = '```' + nl;
+      clientMessage = '```' + nl;
       server.emotes.forEach((emote) => {
-        dbMessage += "!" + (emote.command) + nl
+        clientMessage += "!" + (emote.command) + nl
       })
-      dbMessage += '```';
+      clientMessage += '```';
     } else {
-      dbMessage = 'No emotes yet. Add one!';
+      clientMessage = 'No emotes yet. Add one!';
     }
     bot.sendMessage({
       to: channelId,
-      message: dbMessage
+      message: clientMessage
     });
   });
 }
