@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 var nl = require('os').EOL;
 
-// require('../models/Emote');
-// const Emote = mongoose.model('emotes');
 const Server = require('../models/Server');
 
 module.exports = (bot, channelId, message, evt) => {
@@ -18,9 +16,9 @@ module.exports = (bot, channelId, message, evt) => {
     case 'delete':
       deleteEmote(args, bot, channelId, serverId);
       break;
-    // case 'emotes':
-    //   listEmotes(bot, channelId, serverId);
-    //   break;
+    case 'emotes':
+      listEmotes(bot, channelId, serverId);
+      break;
     case 'help':
       listCommands(bot, channelId);
       break;
@@ -44,13 +42,13 @@ const testCommand = (bot, channelId) => {
 //credit to: https://gist.github.com/LeverOne/1308368
 const generateUuid = () => {for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b}
 
-const findEmote = (serverId, cmd, emoteAction) => {
+const findEmote = (serverId, emoteAction, cmd = null) => {
   return Server.findOne({serverId: serverId}, 'emotes', (err, res) => {
     let queryResult = {
       idx: -1,
       server: res
     }
-    if (res) {
+    if (res && cmd) {
       let emotes = res.emotes
 
       for (let i = 0; i < emotes.length; i++) {
@@ -61,7 +59,7 @@ const findEmote = (serverId, cmd, emoteAction) => {
       }
     }
     emoteAction(queryResult);
-  }); 
+  });
 }
 
 const findInsertionIndex = (emotes, cmd, start = 0, end = emotes.length - 1) => {
@@ -102,9 +100,9 @@ const addEmote = (args, bot, channelId, evt) => {
       let cmd = args[1];
       let url = images[0].url;
 
-      let serverId = bot.channels[channelId].guild_id
+      let serverId = bot.channels[channelId].guild_id;
 
-      findEmote(serverId, cmd, (queryResult) => {
+      findEmote(serverId, (queryResult) => {
         let dbMessage;
         
         if (queryResult.idx !== -1) {
@@ -126,7 +124,7 @@ const addEmote = (args, bot, channelId, evt) => {
           to: channelId,  
           message: dbMessage
         });
-      });      
+      }, cmd);      
     }
   }
   if (error) {
@@ -145,11 +143,10 @@ const deleteEmote = (args, bot, channelId) => {
     error = true;
   } else {
     let cmd = args[1];
-    let serverId = bot.channels[channelId].guild_id
+    let serverId = bot.channels[channelId].guild_id;
 
-    findEmote(serverId, cmd, (queryResult) => {
+    findEmote(serverId, (queryResult) => {
       let dbMessage;
-
       if (queryResult.idx === -1) {
         dbMessage = `Emote "!${cmd}" does not exist.`;        
       } else {
@@ -163,7 +160,7 @@ const deleteEmote = (args, bot, channelId) => {
         to: channelId,  
         message: dbMessage
       });
-    })
+    }, cmd);
   }
   if (error) {
     bot.sendMessage({
@@ -174,46 +171,25 @@ const deleteEmote = (args, bot, channelId) => {
 }
 
 listEmotes = (bot, channelId) => {
-  let serverId = bot.channels[channelId].guild_id
-  findEmote(serverId, cmd, (queryResult) => {
-    if (queryResult.idx !== -1) {
-      //
+  let serverId = bot.channels[channelId].guild_id;
+  findEmote(serverId, (queryResult) => {
+    let dbMessage;
+    let server = queryResult.server;
+    if (server && server.emotes.length > 0) {
+      dbMessage = '```' + nl;
+      server.emotes.forEach((emote) => {
+        dbMessage += "!" + (emote.command) + nl
+      })
+      dbMessage += '```';
+    } else {
+      dbMessage = 'No emotes yet. Add one!';
     }
-  })
+    bot.sendMessage({
+      to: channelId,
+      message: dbMessage
+    });
+  });
 }
-// listEmotes = (bot, channelId) => {
-//   Emote.find({}, 'command',
-//   {
-//     sort: {
-//       command: 1
-//     }
-//   },
-//   (err, results) => {
-//     if (err) {
-//       bot.sendMessage({
-//         to: channelId,
-//         message: err
-//       });
-//     } else if (results.length !== 0){
-//       let emoteList = '```' + nl;
-//       results.forEach((res) => {
-//         emoteList += "!" + (res.command) + nl
-//       })
-//       emoteList += '```';
-
-//       bot.sendMessage({
-//         to: channelId,
-//         message: emoteList
-//       });
-//     } else {
-//       bot.sendMessage({
-//         to: channelId,
-//         message: "No emotes yet. Add one!"
-//       });
-//     }
-//   })
-
-// }
 
 const listCommands = (bot, channelId) => {
   bot.sendMessage({
