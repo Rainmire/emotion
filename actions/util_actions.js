@@ -64,6 +64,29 @@ const findEmote = (serverId, cmd, emoteAction) => {
   }); 
 }
 
+const findInsertionIndex = (emotes, cmd, start = 0, end = emotes.length - 1) => {
+  let midpt = parseInt((start + end)/2, 10);
+
+  if (start >= end) {
+    if (emotes.length === 0 || cmd < emotes[midpt].command) {
+      return midpt;
+    } else {
+      return midpt + 1;
+    }
+  }
+
+  let cmd1 = emotes[midpt].command;
+  let cmd2 = emotes[midpt + 1].command;
+
+  if (cmd < cmd1) {
+    return findInsertionIndex(emotes, cmd, start, midpt - 1);
+  } else if (cmd > cmd2) {
+    return findInsertionIndex(emotes, cmd, midpt + 1, end);
+  } else {
+    return midpt + 1;
+  }
+}
+
 const addEmote = (args, bot, channelId, evt) => {
   let errorMessage = "Error code 1. Please submit a bug report!";
   let error = false;
@@ -93,7 +116,9 @@ const addEmote = (args, bot, channelId, evt) => {
             let uuid = generateUuid();
             server = new Server({serverId: serverId, serverToken: uuid, emotes: []});
           }
-          server.emotes.push({command: cmd, imageUrl: url});
+          let emotes = server.emotes;
+          let idx = findInsertionIndex(emotes, cmd);
+          emotes.splice(idx, 0, {command: cmd, imageUrl: url});
           server.save();
           dbMessage = `New emote "!${cmd}" added!`;
         }
@@ -148,6 +173,14 @@ const deleteEmote = (args, bot, channelId) => {
   }
 }
 
+listEmotes = (bot, channelId) => {
+  let serverId = bot.channels[channelId].guild_id
+  findEmote(serverId, cmd, (queryResult) => {
+    if (queryResult.idx !== -1) {
+      //
+    }
+  })
+}
 // listEmotes = (bot, channelId) => {
 //   Emote.find({}, 'command',
 //   {
