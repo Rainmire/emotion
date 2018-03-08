@@ -1,7 +1,6 @@
-const Server = require('../models/Server');
 const findEmote = require('./find_emote');
 const findInsertionIndex = require('./find_insertion_index');
-const generateUuid = require('./generate_uid');
+const createServer = require('./create_server');
 
 const addEmote = (args, bot, channelId, evt, serverId) => {
   let errorMessage;
@@ -26,9 +25,7 @@ const addEmote = (args, bot, channelId, evt, serverId) => {
         } else {
           let server = queryResult.server;
           if (!server) {
-            //create new server
-            let uuid = generateUuid();
-            server = new Server({serverId: serverId, serverToken: uuid, emotes: []});
+            server = createServer(serverId);
           }
           let emotes = server.emotes;
           let idx = findInsertionIndex(emotes, cmd);

@@ -1,8 +1,7 @@
 const Server = require('../models/Server');
 
 const findEmote = (serverId, emoteAction, cmd = null) => {
-  console.log('finding emote');
-  Server.findOne({serverId: serverId}, 'emotes', (err, res) => {
+  Server.findOne({serverId: serverId}, 'emotes serverToken', (err, res) => {
     let queryResult = {
       idx: -1,
       server: res,

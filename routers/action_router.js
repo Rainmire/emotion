@@ -3,6 +3,7 @@ const deleteEmote = require('../actions/delete_emote');
 const listEmotes = require('../actions/list_emotes');
 const listCommands = require('../actions/list_commands');
 const sendEmote = require('../actions/send_emote');
+const getToken = require('../actions/get_token');
 
 module.exports = (bot, channelId, message, evt) => {
 
@@ -22,6 +23,9 @@ module.exports = (bot, channelId, message, evt) => {
         break;
       case 'emotes':
         listEmotes(bot, channelId, serverId);
+        break;
+      case 'gettoken':
+        getToken(bot, channelId, serverId);
         break;
       case 'help':
         listCommands(bot, channelId);
