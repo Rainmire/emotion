@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const emoteSchema = new Schema({
   command:{
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   imageUrl:{
     type: String,
