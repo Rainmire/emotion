@@ -1,13 +1,17 @@
-const Server = require('../models/Server');
+const Server = require('../../models/Server');
+const createServer = require('../create_server');
 
-const findEmote = (serverId, emoteAction, cmd = null) => {
+const searchByServerId = ({serverId, callback, cmd = null}) => {
   Server.findOne({serverId: serverId}, 'emotes serverToken', (err, res) => {
     let queryResult = {
       idx: -1,
       server: res,
       err: err
     }
-    if (res && cmd) {
+    if (!res) {
+      //create new server
+      queryResult.server = createServer(serverId);
+    } else if (cmd) {
       let emotes = res.emotes
 
       for (let i = 0; i < emotes.length; i++) {
@@ -17,8 +21,8 @@ const findEmote = (serverId, emoteAction, cmd = null) => {
         }
       }
     }
-    emoteAction(queryResult);
+    callback(queryResult);
   });
 }
 
-module.exports = findEmote;
+module.exports = searchByServerId;

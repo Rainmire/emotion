@@ -1,4 +1,4 @@
-const findEmote = require('./find_emote');
+const searchByServerId = require('./search/server_id');
 
 const deleteEmote = (args, bot, channelId, serverId) => {
   let errorMessage;
@@ -8,7 +8,7 @@ const deleteEmote = (args, bot, channelId, serverId) => {
     error = true;
   } else {
     let cmd = args[1];
-    findEmote(serverId, (queryResult) => {
+    searchByServerId({serverId, cmd, callback: (queryResult) => {
       let clientMessage;
       if (queryResult.err) {
         clientMessage = "Error code 1-d. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
@@ -25,7 +25,7 @@ const deleteEmote = (args, bot, channelId, serverId) => {
         to: channelId,  
         message: clientMessage
       });
-    }, cmd);
+    }});
   }
   if (error) {
     bot.sendMessage({

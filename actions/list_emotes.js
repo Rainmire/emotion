@@ -1,8 +1,8 @@
 const nl = require('os').EOL;
-const findEmote = require('./find_emote');
+const searchByServerId = require('./search/server_id');
 
 listEmotes = (bot, channelId, serverId) => {
-  findEmote(serverId, (queryResult) => {
+  searchByServerId({serverId, callback: (queryResult) => {
     let clientMessage;
     let server = queryResult.server;
     if (queryResult.err) {
@@ -20,7 +20,7 @@ listEmotes = (bot, channelId, serverId) => {
       to: channelId,
       message: clientMessage
     });
-  });
+  }});
 }
 
 module.exports = listEmotes;

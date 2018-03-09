@@ -4,6 +4,7 @@ const listEmotes = require('../actions/list_emotes');
 const listCommands = require('../actions/list_commands');
 const sendEmote = require('../actions/send_emote');
 const getToken = require('../actions/get_token');
+const importEmotes = require('../actions/import_emotes');
 
 module.exports = (bot, channelId, message, evt) => {
 
@@ -26,6 +27,9 @@ module.exports = (bot, channelId, message, evt) => {
         break;
       case 'gettoken':
         getToken(bot, channelId, serverId);
+        break;
+      case 'import':
+        importEmotes(args, bot, channelId, serverId);
         break;
       case 'help':
         listCommands(bot, channelId);

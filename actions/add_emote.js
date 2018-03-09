@@ -1,6 +1,5 @@
-const findEmote = require('./find_emote');
+const searchByServerId = require('./search/server_id');
 const findInsertionIndex = require('./find_insertion_index');
-const createServer = require('./create_server');
 
 const addEmote = (args, bot, channelId, evt, serverId) => {
   let errorMessage;
@@ -16,17 +15,14 @@ const addEmote = (args, bot, channelId, evt, serverId) => {
     } else {
       let cmd = args[1];
       let url = images[0].url;
-      findEmote(serverId, (queryResult) => {
+      searchByServerId({serverId, cmd, callback: (queryResult) => {
         let clientMessage;        
         if (queryResult.err) {
           clientMessage = "Error code 1-a. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
         } else if (queryResult.idx !== -1) {
           clientMessage = `Emote "!${cmd}" already exists.`;
         } else {
-          let server = queryResult.server;
-          if (!server) {
-            server = createServer(serverId);
-          }
+          let server = queryResult.server;          
           let emotes = server.emotes;
           let idx = findInsertionIndex(emotes, cmd);
           emotes.splice(idx, 0, {command: cmd, imageUrl: url});
@@ -37,7 +33,7 @@ const addEmote = (args, bot, channelId, evt, serverId) => {
           to: channelId,  
           message: clientMessage
         });
-      }, cmd);      
+      }});      
     }
   }
   if (error) {

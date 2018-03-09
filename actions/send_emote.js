@@ -1,7 +1,7 @@
-const findEmote = require('./find_emote');
+const searchByServerId = require('./search/server_id');
 
 const sendEmote = (cmd, bot, channelId, serverId) => {
-  findEmote(serverId, (queryResult) => {
+  searchByServerId({serverId, cmd, callback: (queryResult) => {
     let send = true;
     let clientMessage;
     if (queryResult.err) {
@@ -17,7 +17,7 @@ const sendEmote = (cmd, bot, channelId, serverId) => {
         message: clientMessage
       });
     }
-  }, cmd)
+  }});
 }
 
 module.exports = sendEmote;
