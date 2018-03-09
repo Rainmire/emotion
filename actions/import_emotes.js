@@ -1,5 +1,6 @@
 const searchByServerToken = require('./search/server_token');
 const searchByServerId = require('./search/server_id');
+const nl = require('os').EOL;
 
 const importEmotes = (args, bot, channelId, serverId) => {
   let errorMessage;
@@ -21,7 +22,7 @@ const importEmotes = (args, bot, channelId, serverId) => {
           if (dest.err) {
             bot.sendMessage({
               to: channelId,  
-              message: "Error code 2-i."
+              message: dest.err
             });
           } else {
             let sourceEmotes = source.server.emotes;
@@ -29,33 +30,57 @@ const importEmotes = (args, bot, channelId, serverId) => {
             let newEmotes = [];
             let i = 0;
             let j = 0;
+            let conflicts = [];
             while (i < sourceEmotes.length || j < destEmotes.length) {
               let newEmote;
+              let sourceEmote = sourceEmotes[i];
+              let destEmote = destEmotes[j];              
+
               if (i >= sourceEmotes.length) {
-                newEmote = destEmotes[j];
+                newEmote = destEmote;
                 j++;
               } else if (j >= destEmotes.length) {
-                newEmote = sourceEmotes[i];
+                newEmote = sourceEmote;
                 i++;
-              } else if (sourceEmotes[i] < destEmotes[j]) {
-                newEmote = sourceEmotes[i];
+              } else if (sourceEmote.command < destEmote.command) {
+                newEmote = sourceEmote;
                 i++;
+              } else if (sourceEmote.command > destEmote.command) {
+                newEmote = destEmote;
+                j++;
               } else {
-                newEmote = destEmotes[j];
+                newEmote = destEmote;
+                conflicts.push(sourceEmote.command);
+                i++;
                 j++;
               }
               newEmotes.push({command: newEmote.command, imageUrl: newEmote.imageUrl});
             }
             dest.server.emotes = newEmotes;
-            dest.server.save();            
+            dest.server.save();
+
+            let message = 'New emotes have been imported!';
+            if (conflicts.length > 0) {
+              message += nl + 'The following commands already exist, and were skipped:' + nl +
+                              '```';
+              conflicts.forEach((cmd) => {
+                message += nl + '!' + cmd;
+              })
+              message += nl + '```';
+            }
+            bot.sendMessage({
+              to: channelId,  
+              message: message
+            });
           }
         }});
-        clientMessage = "New emotes have been imported!";
       }
-      bot.sendMessage({
-        to: channelId,  
-        message: clientMessage
-      });
+      if (clientMessage) {
+        bot.sendMessage({
+          to: channelId,  
+          message: clientMessage
+        });
+      }
     }});
   }
 
