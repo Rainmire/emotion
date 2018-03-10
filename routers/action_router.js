@@ -5,8 +5,15 @@ const listCommands = require('../actions/list_commands');
 const sendEmote = require('../actions/send_emote');
 const getToken = require('../actions/get_token');
 const importEmotes = require('../actions/import_emotes');
+const joinServer = require('../actions/join_server');
 
 module.exports = (bot, channelId, message, evt) => {
+
+  if (evt.d.type === 7) {
+    if (evt.d.author.discriminator === '3573') {
+      joinServer(bot, channelId);
+    }
+  }
 
   let args = message.substring(1).split(' ');
   let cmd = args[0];

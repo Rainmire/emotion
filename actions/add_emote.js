@@ -33,7 +33,7 @@ const addEmote = (args, bot, channelId, evt, serverId) => {
           to: channelId,  
           message: clientMessage
         });
-      }});      
+      }});
     }
   }
   if (error) {
