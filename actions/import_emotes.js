@@ -10,6 +10,9 @@ const importEmotes = (args, bot, channelId, serverId) => {
     error = true;
   } else {
     let serverToken = args[1];
+    if (serverToken = 'default') {
+      serverToken = 'f2105565-81ee-4309-a91a-7b502b029f30';
+    }
     searchByServerToken({serverToken, callback: (source) => {
       let clientMessage;        
       if (source.err) {
