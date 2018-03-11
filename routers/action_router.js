@@ -39,7 +39,7 @@ module.exports = (bot, channelId, message, evt) => {
         importEmotes(args, bot, channelId, serverId);
         break;
       case 'help':
-        listCommands(bot, channelId);
+        listCommands(args, bot, channelId);
         break;
       case 'test':
         testCommand(bot, channelId);

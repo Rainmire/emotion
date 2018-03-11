@@ -20,7 +20,8 @@ const addEmote = (args, bot, channelId, evt, serverId) => {
         if (queryResult.err) {
           clientMessage = "Error code 1-a. Please submit a bug report at https://github.com/Rainmire/emotion/issues";
         } else if (queryResult.idx !== -1) {
-          clientMessage = `Emote "!${cmd}" already exists.`;
+          clientMessage = `Emote "!${cmd}" already exists. ` + 
+          'If you would like to change an emote, delete it first using `?delete <emote>`';
         } else {
           let server = queryResult.server;          
           let emotes = server.emotes;
