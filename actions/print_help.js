@@ -1,7 +1,6 @@
-const nl = require('os').EOL;
 const helpMessages = require('../server_messages/help_messages');
 
-const listCommands = (args, bot, channelId) => {
+const printHelp = (args, bot, channelId) => {
   let clientMessage;
   if (args.length > 2) {
     clientMessage = 'Invalid syntax. Type `?help` to list all commands ' +
@@ -26,11 +25,14 @@ const listCommands = (args, bot, channelId) => {
       case 'import':
         clientMessage = helpMessages.import;
         break;
+      case 'help':
+        clientMessage = helpMessages.help;
+        break;
       default:
         clientMessage = helpMessages.invalid;
     }
   } else {
-    clientMessage = helpMessages.help;
+    clientMessage = helpMessages.listcommands;
   }
   bot.sendMessage({
     to: channelId,
@@ -38,4 +40,4 @@ const listCommands = (args, bot, channelId) => {
   });
 }
 
-module.exports = listCommands;
+module.exports = printHelp;

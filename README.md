@@ -9,8 +9,10 @@ Commands:
   ?delete <emote> Delete an emote
   ?emotes         List all emotes
   ?gettoken       Generate a token used to import emotes from this server
-  ?import <token> Import emotes from another server. Use ?gettoken in the source server to generate a token
-  ?help           Print this index
+  ?import <token> Import emotes from another server
+  ?help           List all commands
+
+Use "help? <command>" to get more detailed information about a specific command.
 ```
 
 To add emotion to your server, click here: https://discordapp.com/api/oauth2/authorize?client_id=417809459864272906&permissions=0&scope=bot

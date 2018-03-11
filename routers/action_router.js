@@ -1,11 +1,12 @@
+const joinServer = require('../actions/join_server');
+const sendEmote = require('../actions/send_emote');
 const addEmote = require('../actions/add_emote');
 const deleteEmote = require('../actions/delete_emote');
 const listEmotes = require('../actions/list_emotes');
-const listCommands = require('../actions/list_commands');
-const sendEmote = require('../actions/send_emote');
 const getToken = require('../actions/get_token');
+const resetToken = require('../actions/reset_token');
 const importEmotes = require('../actions/import_emotes');
-const joinServer = require('../actions/join_server');
+const printHelp = require('../actions/print_help');
 
 module.exports = (bot, channelId, message, evt) => {
 
@@ -35,18 +36,15 @@ module.exports = (bot, channelId, message, evt) => {
       case 'gettoken':
         getToken(bot, channelId, serverId);
         break;
+      case 'resettoken':
+        resetToken(bot, channelId, serverId);
+        break;
       case 'import':
         importEmotes(args, bot, channelId, serverId);
         break;
       case 'help':
-        listCommands(args, bot, channelId);
-        break;
-      case 'test':
-        testCommand(bot, channelId);
-        break;
+        printHelp(args, bot, channelId);
+        break;      
     }
   }
-}
-
-const testCommand = (bot, channelId) => {
 }

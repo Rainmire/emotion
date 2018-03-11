@@ -6,6 +6,8 @@ const searchByServerToken = ({serverToken, callback}) => {
       server: res,
       err: err
     }
+    console.log(serverToken);
+    console.log(queryResult);
     callback(queryResult);
   });
 }

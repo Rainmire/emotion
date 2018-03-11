@@ -2,7 +2,7 @@ const nl = require('os').EOL;
 
 const helpMessages =
 {
-  help:
+  listcommands:
     '```' + nl +
     'emotion - A Discord bot by Rainmire for creating and sending custom emotes' + nl + nl +
     'Commands:' + nl +
@@ -11,7 +11,8 @@ const helpMessages =
     '  ?delete <emote> Delete an emote' + nl +
     '  ?emotes         List all emotes' + nl +
     '  ?gettoken       Generate a token used to import emotes from this server' + nl +
-    '  ?import <token> Import emotes from another server' + nl + nl +
+    '  ?import <token> Import emotes from another server' + nl +
+    '  ?help           List all commands' + nl + nl +
     'Use "help? <command>" to get more detailed information about a specific command.' + nl +
     '```',
   emote:
@@ -53,6 +54,13 @@ const helpMessages =
     'Import all emotes from another server using that server\'s token. ' +
     'You can get a server\'s token using "?gettoken". ' +
     'To revoke access to your emotes, you can invalidate your token with "?resettoken", which will assign your server a new token.' + nl +
+    '```',
+  help:
+    '```' + nl +
+    '?help' + nl + nl +
+    'List all the commands that can be performed. ' +
+    'To get more help regarding a specific command, use "?help <command>". ' +
+    'To list all the emotes instead, use "?emotes".' + nl +
     '```',
   invalid:
     '```' + nl +

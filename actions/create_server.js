@@ -1,5 +1,5 @@
 const Server = require('../models/Server');
-const generateUuid = require('./generate_uid');
+const generateUuid = require('./generate_uuid');
 
 const createServer = (serverId) => {
   let uuid = generateUuid();
