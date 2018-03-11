@@ -8,6 +8,9 @@ const listCommands = (args, bot, channelId) => {
     'or `?help <command>` to get more information about a specific command.';
   } else if (args.length === 2) {
     switch(args[1]) {
+      case 'emote':
+        clientMessage = helpMessages.emote
+        break;
       case 'add':
         clientMessage = helpMessages.add;
         break;
