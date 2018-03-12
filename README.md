@@ -22,5 +22,7 @@ Want some sample emotes to help you get started? Use the command `?import defaul
 ### Sending Emotes
 ![](https://github.com/Rainmire/emotion/blob/master/docs/send_emote.gif "sending emotes")
 
+### Adding Emotes
+![](https://github.com/Rainmire/emotion/blob/master/docs/add_emote.gif "sending emotes")
 
 #### Powered by Heroku and mLab
