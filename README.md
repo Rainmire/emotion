@@ -20,7 +20,7 @@ To add emotion to your server, click here: https://discordapp.com/api/oauth2/aut
 Want some sample emotes to help you get started? Use the command `?import default` to add some of my emotes!
 
 ### Sending Emotes
-
+![](https://github.com/Rainmire/emotion/blob/master/docs/send_emote.gif "sending emotes")
 
 
 #### Powered by Heroku and mLab
