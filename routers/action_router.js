@@ -44,7 +44,10 @@ module.exports = (bot, channelId, message, evt) => {
         break;
       case 'help':
         printHelp(args, bot, channelId);
-        break;      
+        break;
+      case 'test':
+        joinServer(bot, channelId);
+        break;
     }
   }
 }
