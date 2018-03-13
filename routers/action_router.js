@@ -11,7 +11,7 @@ const printHelp = require('../actions/print_help');
 module.exports = (bot, channelId, message, evt) => {
   
   if (evt.d.type === 7) {
-    if (evt.d.author.discriminator === '3573') {
+    if (evt.d.author.id === bot.id) {
       joinServer(bot, channelId);
     }
   }
