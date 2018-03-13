@@ -3,3 +3,4 @@ backup/
 scripts/
 AMI_keys/
 logs/
+package-lock.json
