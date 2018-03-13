@@ -36,6 +36,7 @@ bot.on('ready', function (evt) {
 });
 
 bot.on('message', function (user, userId, channelId, message, evt) {
+  console.log(evt);
   actionRouter(bot, channelId, message, evt);
 });
 
