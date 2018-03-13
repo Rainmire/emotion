@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const Discord = require('discord.io');
 const logger = require('winston');
 const mongoose = require('mongoose');
