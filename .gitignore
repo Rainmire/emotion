@@ -2,3 +2,4 @@ node_modules/
 backup/
 scripts/
 AMI_keys/
+logs/
