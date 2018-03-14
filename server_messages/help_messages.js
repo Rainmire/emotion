@@ -4,15 +4,19 @@ const helpMessages =
 {
   listcommands:
     '```' + nl +
-    'emotion - A Discord bot by Rainmire for creating and sending custom emotes' + nl + nl +
-    'Commands:' + nl +
-    '  !<emote>        Send an emote' + nl +
+    'emotion, by Rainmire - A Discord bot for creating and sending custom emotes' + nl + nl +
+
+    'Actions:' + nl +
+    '  !<emote>        Send an emote' + nl + nl +
+
+    'Utility:' + nl +
+    '  ?emotes         List all emotes' + nl +
     '  ?add <emote>    Add a new emote. Use as a comment when adding an image' + nl +
     '  ?delete <emote> Delete an emote' + nl +
-    '  ?emotes         List all emotes' + nl +
     '  ?gettoken       Generate a token used to import emotes from this server' + nl +
     '  ?import <token> Import emotes from another server' + nl +
     '  ?help           List all commands' + nl + nl +
+
     'Use "help? <command>" to get more detailed information about a specific command.' + nl +
     '```',
   emote:
