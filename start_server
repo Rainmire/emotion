@@ -1,2 +1,1 @@
-mkdir logs
-NODE_ENV=production nohup node emotion.js > ./logs/emotion.out 2> ./logs/emotion.err &
+NODE_ENV=production forever start emotion.js
