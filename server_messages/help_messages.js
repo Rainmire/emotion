@@ -10,12 +10,12 @@ const helpMessages =
     '  !<emote>        Send an emote' + nl + nl +
 
     'Utility:' + nl +
-    '  ?emotes         List all emotes' + nl +
-    '  ?add <emote>    Add a new emote. Use as a comment when adding an image' + nl +
-    '  ?delete <emote> Delete an emote' + nl +
-    '  ?gettoken       Generate a token used to import emotes from this server' + nl +
-    '  ?import <token> Import emotes from another server' + nl +
-    '  ?help           List all commands' + nl + nl +
+    '  ?emotes          List all emotes' + nl +
+    '  ?add <emote>     Add a new emote. Use as a comment when adding an image' + nl +
+    '  ?delete <emote>  Delete an emote' + nl +
+    '  ?gettoken        Generate a token used to import emotes from this server' + nl +
+    '  ?import <token>  Import emotes from another server' + nl +
+    '  ?help            List all commands' + nl + nl +
 
     'Use "help? <command>" to get more detailed information about a specific command.' + nl +
     '```',
