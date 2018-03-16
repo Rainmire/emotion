@@ -2,15 +2,18 @@
 
 ## Simplicity is key
 emotion is a lightweight Discord bot written in Node JS and supported by a MongoDB database.
+
 ```
-Commands:
+Actions:
   !<emote>        Send an emote
-  ?add <emote>    Add a new emote. Use as a comment when adding an image
-  ?delete <emote> Delete an emote
-  ?emotes         List all emotes
-  ?gettoken       Generate a token used to import emotes from this server
-  ?import <token> Import emotes from another server
-  ?help           List all commands
+
+Utility:
+  ?emotes          List all emotes
+  ?add <emote>     Add a new emote. Use as a comment when adding an image
+  ?delete <emote>  Delete an emote
+  ?gettoken        Generate a token used to import emotes from this server
+  ?import <token>  Import emotes from another server
+  ?help            List all commands
 
 Use "help? <command>" to get more detailed information about a specific command.
 ```
