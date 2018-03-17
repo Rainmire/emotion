@@ -15,7 +15,7 @@ Utility:
   ?import <token>  Import emotes from another server
   ?help            List all commands
 
-Use "help? <command>" to get more detailed information about a specific command.
+Use "?help <command>" to get more detailed information about a specific command.
 ```
 
 To add emotion to your server, click here: https://discordapp.com/api/oauth2/authorize?client_id=417809459864272906&permissions=0&scope=bot
