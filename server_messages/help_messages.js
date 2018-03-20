@@ -17,7 +17,7 @@ const helpMessages =
     '  ?import <token>  Import emotes from another server' + nl +
     '  ?help            List all commands' + nl + nl +
 
-    'Use "help? <command>" to get more detailed information about a specific command.' + nl +
+    'Use "?help <command>" to get more detailed information about a specific command.' + nl +
     '```',
   emote:
     '```' + nl +
