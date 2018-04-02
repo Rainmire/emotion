@@ -1,5 +1,5 @@
 # emotion - a Discord bot for custom emotes
-![](https://github.com/Rainmire/emotion/blob/master/docs/logo.jpg "logo")
+<img src="https://github.com/Rainmire/emotion/blob/master/docs/logo.jpg" alt="logo" style="width: 200px;"/>
 
 ## Simplicity is key
 emotion is a lightweight Discord bot written in Node JS and supported by a MongoDB database.
