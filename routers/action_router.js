@@ -8,21 +8,75 @@ const resetToken = require('../actions/reset_token');
 const importEmotes = require('../actions/import_emotes');
 const printHelp = require('../actions/print_help');
 
-module.exports = (bot, channelId, message, evt) => {
+// module.exports = (bot, channelId, message, evt) => {
   
-  if (evt.d.type === 7) {
-    if (evt.d.author.id === bot.id) {
-      joinServer(bot, channelId);
-    }
-  }
+//   if (evt.d.type === 7) {
+//     if (evt.d.author.id === bot.id) {
+//       joinServer(bot, channelId);
+//     }
+//   }
 
-  let args = message.substring(1).split(' ');
+//   let args = message.substring(1).split(' ');
+//   let cmd = args[0];
+//   let serverId = bot.channels[channelId].guild_id;
+
+//   if (message.substring(0, 1) === '!') {
+//     sendEmote(cmd, bot, channelId, serverId);
+//   } else if (message.substring(0, 1) === '?') {    
+//     switch(cmd) {
+//       case 'add':
+//         addEmote(args, bot, channelId, evt, serverId);
+//         break;
+//       case 'delete':
+//         deleteEmote(args, bot, channelId, serverId);
+//         break;
+//       case 'emotes':
+//         listEmotes(bot, channelId, serverId);
+//         break;
+//       case 'gettoken':
+//         getToken(bot, channelId, serverId);
+//         break;
+//       case 'resettoken':
+//         resetToken(bot, channelId, serverId);
+//         break;
+//       case 'import':
+//         importEmotes(args, bot, channelId, serverId);
+//         break;
+//       case 'help':
+//         printHelp(args, bot, channelId);
+//         break;      
+//     }
+//   }
+// }
+
+
+module.exports = (msg) => {
+  
+  // if (evt.d.type === 7) {
+  //   if (evt.d.author.id === bot.id) {
+  //     joinServer(bot, channelId);
+  //   }
+  // }
+
+  // console.log(msg.guild.id)
+
+  let content = msg.content;
+
+  //short circuit
+  if (content[0] !== '!' && content[0] !== '?') return
+  
+  let args = content.substring(1).split(' ');
   let cmd = args[0];
-  let serverId = bot.channels[channelId].guild_id;
+  // let serverId = bot.channels[channelId].guild_id;
 
-  if (message.substring(0, 1) === '!') {
-    sendEmote(cmd, bot, channelId, serverId);
-  } else if (message.substring(0, 1) === '?') {    
+  // msg.channel.send('reply');
+  // msg.channel.send({
+  //   files: ['https://cdn.discordapp.com/attachments/415764522255646732/418614998026158092/cactusvomit.png']
+  // })
+
+  if (content[0] === '!') {
+    sendEmote(msg, args);
+  } else if (content.substring(0, 1) === '?') {    
     switch(cmd) {
       case 'add':
         addEmote(args, bot, channelId, evt, serverId);

@@ -1,7 +1,10 @@
 const searchByServerId = require('./search/server_id');
 
-const sendEmote = (cmd, bot, channelId, serverId) => {
-  searchByServerId({serverId, cmd, callback: (queryResult) => {
+const sendEmote = (msg, args) => {
+  let serverId = msg.guild.id;
+  let name = args[0];
+
+  searchByServerId({serverId, name, callback: (queryResult) => {
     let send = true;
     let clientMessage;
     if (queryResult.err) {
@@ -12,10 +15,9 @@ const sendEmote = (cmd, bot, channelId, serverId) => {
       send = false;
     }
     if (send) {
-      bot.sendMessage({
-        to: channelId,  
-        message: clientMessage
-      });
+      msg.channel.send({
+        files: [clientMessage]
+      })
     }
   }});
 }
